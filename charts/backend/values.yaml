@@ -8,7 +8,7 @@ image:
   pullPolicy: IfNotPresent
   # La etiqueta de la imagen. Este es el valor que nuestro pipeline de CI/CD
   # actualizará automáticamente con el hash del último commit.
-  tag: "initial"
+  tag: '6b0aca0'
 
 # Configuración del servicio que expondrá nuestra aplicación.
 service:
