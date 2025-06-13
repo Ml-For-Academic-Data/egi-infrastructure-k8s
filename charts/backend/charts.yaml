@@ -1,0 +1,11 @@
+# Versión de la API de Helm.
+apiVersion: v2
+# Nombre de nuestro chart (debe coincidir con el nombre de la carpeta).
+name: backend
+# Una breve descripción.
+description: Un Helm chart para desplegar el backend de EGI (Airflow).
+# La versión de nuestro chart. Si hacemos cambios en las plantillas, incrementamos este número.
+version: 0.1.0
+# La versión de la aplicación que este chart despliega.
+appVersion: "1.0.0"
+

@@ -1,0 +1,21 @@
+# values.yaml
+
+# Configuración de la imagen de Docker que vamos a desplegar.
+image:
+  # El nombre de la imagen en el registry. Coincide con lo que definimos en el pipeline.
+  repository: ghcr.io/ml-for-academic-data/egi-backend
+  # La política de descarga. 'IfNotPresent' evita descargar la imagen si ya existe localmente.
+  pullPolicy: IfNotPresent
+  # La etiqueta de la imagen. Este es el valor que nuestro pipeline de CI/CD
+  # actualizará automáticamente con el hash del último commit.
+  tag: "initial"
+
+# Configuración del servicio que expondrá nuestra aplicación.
+service:
+  # El tipo de servicio. 'ClusterIP' lo hace accesible solo dentro del clúster.
+  type: ClusterIP
+  # El puerto en el que el servicio escuchará.
+  port: 8080
+
+# Aquí podríamos añadir más configuraciones en el futuro, como las variables
+# de entorno para Airflow, réplicas, etc.

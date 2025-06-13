@@ -1,0 +1,33 @@
+# Plantilla para el Despliegue del Webserver de Airflow
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # El nombre del despliegue.
+  name: backend-airflow-webserver
+spec:
+  # Cuántas réplicas (pods) de nuestra aplicación queremos.
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-airflow-webserver
+  template:
+    metadata:
+      labels:
+        app: backend-airflow-webserver
+    spec:
+      containers:
+        - name: webserver
+          # Aquí está la magia: construye el nombre completo de la imagen
+          # usando las variables de nuestro archivo values.yaml.
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            # El puerto que expone el contenedor de Airflow.
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          # Aquí se podrían añadir las variables de entorno, monturas de volúmenes, etc.
+          # Por ejemplo:
+          # env:
+          #   - name: AIRFLOW__CORE__EXECUTOR
+          #     value: {{ .Values.airflow.executor | quote }}
