@@ -1,0 +1,7 @@
+# Valores para el ambiente de Desarrollo.
+# El pipeline de CI/CD actualizará este archivo automáticamente.
+
+replicas: 1
+
+image:
+  tag: "initial-dev" # Un tag inicial para desarrollo

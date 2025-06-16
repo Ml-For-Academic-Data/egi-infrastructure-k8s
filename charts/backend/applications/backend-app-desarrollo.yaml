@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: egi-backend-desarrollo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Ml-For-Academic-Data/egi-infrastructure-k8s.git
+    path: charts/backend
+    targetRevision: main
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-desarrollo.yaml # Usa los valores para desarrollo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: desarrollo # Despliega en el namespace 'desarrollo'
+  syncPolicy: { automated: { prune: true, selfHeal: true }, syncOptions: ["CreateNamespace=true"] }
