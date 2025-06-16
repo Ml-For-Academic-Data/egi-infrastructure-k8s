@@ -1,4 +1,3 @@
-# Plantilla para el Servicio del Webserver de Airflow
 apiVersion: v1
 kind: Service
 metadata:
@@ -11,5 +10,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    # Este selector conecta el servicio con los pods creados por nuestro Deployment.
     app: backend-airflow-webserver
