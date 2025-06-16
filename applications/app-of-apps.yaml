@@ -3,7 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   # El nombre de nuestra aplicación "madre".
-  name: root-applications
+  name: root-applicationss
   # Debe vivir en el namespace de Argo CD.
   namespace: argocd
 spec:
