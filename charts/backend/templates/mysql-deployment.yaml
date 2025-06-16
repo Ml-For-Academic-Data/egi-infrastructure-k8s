@@ -32,4 +32,15 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.mysql.existingSecret }}
                   key: mysql-password
-          # Aquí se podría montar un volumen persistente
+          # --- SECCIÓN AÑADIDA PARA EL VOLUMEN ---
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          {{- if .Values.mysql.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+          {{- else }}
+          emptyDir: {}
+          {{- end }}

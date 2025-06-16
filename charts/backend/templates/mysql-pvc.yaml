@@ -1,0 +1,12 @@
+{{- if .Values.mysql.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - {{ .Values.mysql.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.mysql.persistence.size | quote }}
+{{- end }}
