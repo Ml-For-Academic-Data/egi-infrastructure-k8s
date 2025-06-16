@@ -1,0 +1,30 @@
+# Manifiesto para la Aplicación Raíz (App of Apps)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # El nombre de nuestra aplicación "madre".
+  name: root-applications
+  # Debe vivir en el namespace de Argo CD.
+  namespace: argocd
+spec:
+  project: default
+
+  # El origen que esta aplicación vigilará.
+  source:
+    repoURL: https://github.com/Ml-For-Academic-Data/egi-infrastructure-k8s.git
+    # ¡Punto Clave! Apunta a la carpeta que contiene TODAS las definiciones de nuestras apps.
+    path: applications
+    # Vigila la rama principal.
+    targetRevision: main
+
+  # El destino donde se crearán los recursos (las otras aplicaciones).
+  destination:
+    server: https://kubernetes.default.svc
+    # Las aplicaciones hijas también deben vivir en el namespace de Argo CD.
+    namespace: argocd
+
+  # Política de sincronización automática.
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
