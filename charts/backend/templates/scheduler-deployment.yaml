@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-airflow-webserver
+  name: backend-airflow-scheduler
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: 1 # El scheduler siempre debe tener una sola réplica
   selector:
     matchLabels:
-      app: backend-airflow-webserver
+      app: backend-airflow-scheduler
   template:
     metadata:
       labels:
-        app: backend-airflow-webserver
+        app: backend-airflow-scheduler
     spec:
       containers:
-        - name: webserver
+        - name: scheduler
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["airflow", "webserver"] # Comando para iniciar el webserver
+          command: ["airflow", "scheduler"] # Comando para iniciar el scheduler
           env:
             - name: AIRFLOW__CORE__FERNET_KEY
               value: {{ .Values.airflow.fernetKey | quote }}
@@ -24,7 +24,3 @@ spec:
               value: {{ .Values.airflow.dbConnection | quote }}
             - name: AIRFLOW__CORE__EXECUTOR
               value: "SequentialExecutor"
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP

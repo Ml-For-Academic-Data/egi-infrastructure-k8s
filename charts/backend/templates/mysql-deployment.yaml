@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-server
+  template:
+    metadata:
+      labels:
+        app: mysql-server
+    spec:
+      containers:
+        - name: mysql
+          image: {{ .Values.mysql.image }}
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.existingSecret }}
+                  key: mysql-root-password
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.database | quote }}
+            - name: MYSQL_USER
+              value: {{ .Values.mysql.user | quote }}
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.existingSecret }}
+                  key: mysql-password
+          # Aquí se podría montar un volumen persistente

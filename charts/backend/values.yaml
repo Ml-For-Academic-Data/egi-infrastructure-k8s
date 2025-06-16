@@ -1,29 +1,38 @@
 # Archivo de valores por defecto para el backend (Airflow)
 
-# El número de réplicas por defecto.
-# Cada ambiente puede sobrescribir este valor si es necesario.
+# El número de réplicas por defecto para el webserver.
 replicas: 1
 
-# Configuración de la imagen de Docker que vamos a desplegar.
+# Configuración de la imagen de Docker. Este valor es común a todos los
+# componentes de Airflow (webserver y scheduler).
 image:
-  # El nombre de la imagen en el registry.
-  # Este valor es común a todos los ambientes.
   repository: ghcr.io/ml-for-academic-data/egi-backend
-  # La política de descarga.
   pullPolicy: IfNotPresent
-  # La etiqueta de la imagen. Cada ambiente definirá su propia etiqueta
-  # en su archivo de valores específico.
+  # El tag será sobrescrito por los archivos de valores de cada ambiente.
   tag: "default"
 
-# Configuración del servicio que expondrá nuestra aplicación.
-service:
-  # El tipo de servicio por defecto.
+# Configuración común para todos los componentes de Airflow.
+airflow:
+  # La clave de encriptación de Airflow. Es crucial que sea la misma para todos los componentes.
+  # DEBERÍAS cambiar este valor por uno generado por ti.
+  fernetKey: "D_b7-k2tJcEmrfAPASL8V_cY03LJd-uWWtJ-8HN1Esk="
+  # La conexión a la base de datos. Usamos el nombre del servicio de MySQL que crearemos.
+  dbConnection: "mysql+mysqlclient://user:1234@mysql-server:3306/students"
+
+# Configuración específica para el servicio del webserver.
+webserver_service:
   type: ClusterIP
-  # El puerto en el que el servicio escuchará.
   port: 8080
 
-# Aquí podríamos añadir más configuraciones comunes en el futuro.
-# Por ejemplo, las variables de entorno de Airflow que sean
-# iguales en todos los ambientes.
-# airflow:
-#   executor: "SequentialExecutor"
+# Configuración para la base de datos MySQL.
+mysql:
+  # Usaremos la imagen oficial de MySQL.
+  image: mysql:8.0
+  # El nombre del secreto que contendrá la contraseña root de MySQL.
+  # Lo crearemos en el siguiente paso.
+  existingSecret: "mysql-credentials"
+  # Nombre de la base de datos, usuario y contraseña que Airflow usará.
+  # El secreto debe contener la clave 'mysql-root-password'.
+  database: "students"
+  user: "user"
+  password: "1234"
