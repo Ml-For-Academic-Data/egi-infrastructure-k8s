@@ -4,4 +4,4 @@
 replicas: 1
 
 image:
-  tag: "initial-dev" # Un tag inicial para desarrollo
+  tag: 'b70541c'
