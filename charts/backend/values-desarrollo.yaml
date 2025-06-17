@@ -4,4 +4,4 @@
 replicas: 1
 
 image:
-  tag: 'de3b428'
+  tag: '22794d0'
