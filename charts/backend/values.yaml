@@ -9,7 +9,7 @@ image:
   repository: ghcr.io/ml-for-academic-data/egi-backend
   pullPolicy: IfNotPresent
   # El tag será sobrescrito por los archivos de valores de cada ambiente.
-  tag: "default"
+  tag: 'c677e08'
 # Nombre del secreto que contiene las credenciales para descargar la imagen.
 imagePullSecrets:
   - name: ghcr-credentials
