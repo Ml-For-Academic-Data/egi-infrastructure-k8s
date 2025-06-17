@@ -1,0 +1,30 @@
+# --- Definición del Rol ---
+# Un 'Role' define un conjunto de permisos sobre los recursos.
+# Este rol concede permisos de administrador DENTRO del namespace 'desarrollo'.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: argocd-manager-role
+  namespace: desarrollo # ¡Importante! Este rol solo aplica al namespace 'desarrollo'.
+rules:
+- apiGroups: ["*"] # Todos los grupos de API
+  resources: ["*"] # Todos los tipos de recursos (pods, services, deployments, etc.)
+  verbs: ["*"]     # Todos los verbos (get, list, watch, create, update, patch, delete)
+---
+# --- Unión del Rol con el Service Account ---
+# Un 'RoleBinding' une un 'Role' (los permisos) a un sujeto (un usuario, grupo o ServiceAccount).
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argocd-manager-binding
+  namespace: desarrollo # ¡Importante! Esta unión solo aplica al namespace 'desarrollo'.
+subjects:
+# El sujeto es el ServiceAccount que usa el controlador de aplicaciones de Argo CD.
+- kind: ServiceAccount
+  name: argocd-application-controller
+  namespace: argocd # El ServiceAccount vive en el namespace de Argo CD.
+roleRef:
+  # Apunta al Rol que acabamos de crear.
+  kind: Role
+  name: argocd-manager-role
+  apiGroup: rbac.authorization.k8s.io
