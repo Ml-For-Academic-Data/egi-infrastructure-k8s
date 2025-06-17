@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: backend-airflow-scheduler
 spec:
-  replicas: 1 # El scheduler siempre debe tener una sola réplica
+  replicas: 1
   selector:
     matchLabels:
       app: backend-airflow-scheduler
@@ -12,11 +12,17 @@ spec:
       labels:
         app: backend-airflow-scheduler
     spec:
+      # --- SECCIÓN A AÑADIR/VERIFICAR ---
+      # Le dice a este pod que use el secreto 'ghcr-credentials'
+      # para descargar imágenes. La indentación aquí es CRUCIAL.
+      imagePullSecrets:
+      {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+      # --- FIN DE LA SECCIÓN ---
       containers:
         - name: scheduler
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["airflow", "scheduler"] # Comando para iniciar el scheduler
+          command: ["airflow", "scheduler"]
           env:
             - name: AIRFLOW__CORE__FERNET_KEY
               value: {{ .Values.airflow.fernetKey | quote }}

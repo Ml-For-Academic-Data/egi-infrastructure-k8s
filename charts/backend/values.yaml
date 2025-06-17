@@ -10,7 +10,9 @@ image:
   pullPolicy: IfNotPresent
   # El tag será sobrescrito por los archivos de valores de cada ambiente.
   tag: "default"
-
+# Nombre del secreto que contiene las credenciales para descargar la imagen.
+imagePullSecrets:
+  - name: ghcr-credentials
 # Configuración común para todos los componentes de Airflow.
 airflow:
   # La clave de encriptación de Airflow. Es crucial que sea la misma para todos los componentes.

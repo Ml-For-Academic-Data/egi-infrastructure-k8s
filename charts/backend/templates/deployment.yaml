@@ -12,11 +12,17 @@ spec:
       labels:
         app: backend-airflow-webserver
     spec:
+      # --- SECCIÓN A AÑADIR/VERIFICAR ---
+      # Le dice a este pod que use el secreto 'ghcr-credentials'
+      # para descargar imágenes. La indentación aquí es CRUCIAL.
+      imagePullSecrets:
+      {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+      # --- FIN DE LA SECCIÓN ---
       containers:
         - name: webserver
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["airflow", "webserver"] # Comando para iniciar el webserver
+          command: ["airflow", "webserver"]
           env:
             - name: AIRFLOW__CORE__FERNET_KEY
               value: {{ .Values.airflow.fernetKey | quote }}
