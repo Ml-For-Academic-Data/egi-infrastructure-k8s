@@ -38,3 +38,17 @@ mysql:
     enabled: true
     size: 1Gi
     accessMode: ReadWriteOnce
+
+# --- NUEVA SECCIÓN ---
+# Configuración del usuario administrador inicial de Airflow.
+# Airflow creará este usuario automáticamente al arrancar si no existe.
+airflowAdmin:
+  # El nombre del secreto de Kubernetes que contendrá la contraseña.
+  passwordSecretName: "airflow-admin-credentials"
+  # La clave dentro del secreto que contiene la contraseña.
+  passwordSecretKey: "admin-password"
+  # Propiedades del usuario a crear.
+  username: "admin"
+  email: "admin@example.com"
+  firstName: "Admin"
+  lastName: "EGI"
