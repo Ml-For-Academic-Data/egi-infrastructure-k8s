@@ -1,0 +1,13 @@
+replicas: 1
+
+image:
+  repository: ghcr.io/ml-for-academic-data/egi-dashboard
+  pullPolicy: IfNotPresent
+  tag: "default"
+
+imagePullSecrets:
+  - name: ghcr-credentials
+
+service:
+  type: ClusterIP
+  port: 5000
