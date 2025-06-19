@@ -2,8 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-airflow-scheduler
+  labels:
+    app.kubernetes.io/name: backend-airflow-scheduler
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  replicas: 1
+  replicas: 1  # Scheduler siempre debe ser 1 réplica con SequentialExecutor
   selector:
     matchLabels:
       app: backend-airflow-scheduler
@@ -11,19 +14,15 @@ spec:
     metadata:
       labels:
         app: backend-airflow-scheduler
+        app.kubernetes.io/name: backend-airflow-scheduler
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       imagePullSecrets:
       {{- toYaml .Values.imagePullSecrets | nindent 8 }}
-      initContainers:
-      - name: airflow-db-init
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["airflow", "db", "init"]
-        env:
-          - name: AIRFLOW__CORE__FERNET_KEY
-            value: {{ .Values.airflow.fernetKey | quote }}
-          - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
-            value: {{ .Values.airflow.dbConnection | quote }}
+      
+      # REMOVIDO initContainer para evitar conflictos
+      # El webserver ya inicializa la DB, no es necesario hacerlo aquí también
+      
       containers:
         - name: scheduler
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -36,6 +35,30 @@ spec:
               value: {{ .Values.airflow.dbConnection | quote }}
             - name: AIRFLOW__CORE__EXECUTOR
               value: "SequentialExecutor"
+            # Configuraciones adicionales para el scheduler
+            - name: AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL
+              value: "300"  # Revisa DAGs cada 5 minutos
+            - name: AIRFLOW__CORE__LOAD_EXAMPLES
+              value: "False"  # No cargar DAGs de ejemplo
+          # AGREGADO: Recursos necesarios para el scheduler
+          resources:
+            requests:
+              cpu: 200m      # Scheduler necesita más CPU que webserver
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          # Probes para verificar salud del scheduler
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - "airflow jobs check --job-type SchedulerJob --hostname $(hostname)"
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            timeoutSeconds: 10
+            failureThreshold: 3
           # --- NUEVA SECCIÓN: MONTURA DE VOLUMEN ---
           volumeMounts:
             - name: shared-data
