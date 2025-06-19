@@ -52,3 +52,17 @@ airflowAdmin:
   email: "admin@example.com"
   firstName: "Admin"
   lastName: "EGI"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 50
