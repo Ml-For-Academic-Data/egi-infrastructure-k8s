@@ -13,11 +13,6 @@ spec:
       valueFiles:
         - values.yaml
         - values-desarrollo.yaml # Usa los valores para desarrollo
-  ignoreDifferences:
-  - group: apps
-    kind: Deployment
-    jsonPointers:
-    - /spec/replicas
   destination:
     server: https://kubernetes.default.svc
     namespace: desarrollo # Despliega en el namespace 'desarrollo'

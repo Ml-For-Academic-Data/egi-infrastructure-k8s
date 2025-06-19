@@ -1,7 +1,7 @@
 # Archivo de valores por defecto para el backend (Airflow)
 
 # El número de réplicas por defecto para el webserver.
-#replicas: 1
+replicas: 1
 
 # Configuración de la imagen de Docker. Este valor es común a todos los
 # componentes de Airflow (webserver y scheduler).
@@ -52,17 +52,3 @@ airflowAdmin:
   email: "admin@example.com"
   firstName: "Admin"
   lastName: "EGI"
-
-resources:
-  requests:
-    cpu: 500m
-    memory: 1Gi
-  limits:
-    cpu: 1
-    memory: 2Gi
-
-autoscaling:
-  enabled: true
-  minReplicas: 1
-  maxReplicas: 2
-  targetCPUUtilizationPercentage: 50
