@@ -1,7 +1,7 @@
 # Archivo de valores por defecto para el backend (Airflow)
 
 # El número de réplicas por defecto para el webserver.
-replicas: 1
+#replicas: 1
 
 # Configuración de la imagen de Docker. Este valor es común a todos los
 # componentes de Airflow (webserver y scheduler).
