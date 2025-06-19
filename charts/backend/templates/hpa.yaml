@@ -3,7 +3,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: backend-airflow-webserver
-  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: backend-airflow-webserver
     app.kubernetes.io/instance: {{ .Release.Name }}
