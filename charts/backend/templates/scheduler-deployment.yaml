@@ -43,7 +43,7 @@ spec:
           # AGREGADO: Recursos necesarios para el scheduler
           resources:
             requests:
-              cpu: 200m      # Scheduler necesita más CPU que webserver
+              cpu: 200m     
               memory: 256Mi
             limits:
               cpu: 500m
