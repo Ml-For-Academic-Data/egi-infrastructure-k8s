@@ -22,15 +22,3 @@ spec:
             - name: http
               containerPort: 5000
               protocol: TCP
-          # --- NUEVA SECCIÓN: MONTURA DE VOLUMEN ---
-          volumeMounts:
-            - name: shared-data
-              # Montamos el disco en la misma ruta que tu código espera.
-              mountPath: /opt/airflow/data
-              # ¡Importante! El frontend solo necesita leer, no escribir.
-              readOnly: true
-      # --- NUEVA SECCIÓN: DEFINICIÓN DEL VOLUMEN ---
-      volumes:
-        - name: shared-data
-          persistentVolumeClaim:
-            claimName: shared-data-pvc
