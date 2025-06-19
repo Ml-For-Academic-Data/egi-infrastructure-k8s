@@ -9,8 +9,4 @@ version: 0.1.0
 # La versión de la aplicación que este chart despliega.
 appVersion: "1.0.0"
 
-dependencies:
-- name: common # El nombre de la carpeta del chart del que dependemos
-  version: "0.1.0" # La versión del chart (debe coincidir con el Chart.yaml de common)
-  repository: "file://../common" # La ruta al chart local
 
