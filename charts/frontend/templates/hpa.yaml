@@ -2,7 +2,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: frontend-dashboard
+  name: frontend-dashboard-hpa
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: frontend-dashboard

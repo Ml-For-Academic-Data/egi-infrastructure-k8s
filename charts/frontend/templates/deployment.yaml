@@ -2,8 +2,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-dashboard
+  labels:
+    app.kubernetes.io/name: frontend-dashboard
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  annotations:
+    # Esta anotación le dice a ArgoCD que ignore cambios externos en este deployment
+    argocd.argoproj.io/sync-options: IgnoreExtraneous
 spec:
-  replicas: {{ .Values.replicas }}
+  # REMOVIDO: replicas será manejado por HPA, no por el deployment
+  # replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app: frontend-dashboard
@@ -11,6 +18,8 @@ spec:
     metadata:
       labels:
         app: frontend-dashboard
+        app.kubernetes.io/name: frontend-dashboard
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       imagePullSecrets:
       {{- toYaml .Values.imagePullSecrets | nindent 8 }}
@@ -22,6 +31,9 @@ spec:
             - name: http
               containerPort: 5000
               protocol: TCP
+          # --- RECURSOS OBLIGATORIOS PARA HPA ---
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
           # --- NUEVA SECCIÓN: MONTURA DE VOLUMEN ---
           volumeMounts:
             - name: shared-data
@@ -34,5 +46,3 @@ spec:
         - name: shared-data
           persistentVolumeClaim:
             claimName: shared-data-pvc
-      resources:
-          {{- toYaml .Values.resources | nindent 10 }}
