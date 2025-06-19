@@ -34,3 +34,5 @@ spec:
         - name: shared-data
           persistentVolumeClaim:
             claimName: shared-data-pvc
+      resources:
+          {{- toYaml .Values.resources | nindent 10 }}
