@@ -1,4 +1,0 @@
-# Valores para el ambiente de Despliegue del Frontend
-replicas: 2
-image:
-  tag: "not-deployed-yet"

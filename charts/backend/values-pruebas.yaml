@@ -1,7 +1,0 @@
-# Valores para el ambiente de Pruebas.
-# El equipo actualizará este archivo manualmente para promover una versión.
-
-replicas: 1
-
-image:
-  tag: "not-deployed-yet" # Un tag inicial para pruebas 

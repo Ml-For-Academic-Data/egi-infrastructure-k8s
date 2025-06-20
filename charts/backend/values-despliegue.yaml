@@ -1,7 +1,0 @@
-# Valores para el ambiente de Despliegue (Producción).
-# El equipo actualizará este archivo manualmente para promover una versión.
-
-replicas: 2 # Podríamos querer más réplicas en producción
-
-image:
-  tag: "not-deployed-yet" # Un tag inicial para producción
