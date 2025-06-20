@@ -1,12 +1,19 @@
+# --- service.yaml ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-dashboard-service
+  # El nombre del servicio ahora usa la variable appName
+  name: {{ .Values.appName }}-service
 spec:
-  type: ClusterIP  
+  # El tipo de servicio ahora usa la variable del service
+  type: {{ .Values.service.type }}
   selector:
-    app: frontend-dashboard
+    # El selector ahora usa la variable appName
+    app: {{ .Values.appName }}
   ports:
     - protocol: TCP
-      port: 5006       
-      targetPort: 5006
+      # El puerto del servicio ahora usa la variable del service
+      port: {{ .Values.service.port }}
+      # El puerto de destino ahora usa la variable del service
+      targetPort: {{ .Values.service.containerPort }}
