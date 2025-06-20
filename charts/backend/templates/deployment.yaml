@@ -15,8 +15,14 @@ spec:
       imagePullSecrets:
       {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       
+      # --- AÑADIDO: Contexto de Seguridad para Permisos de EFS ---
+      securityContext:
+        runAsUser: 50000 # El UID del usuario 'airflow' en la imagen oficial
+        fsGroup: 0       # El GID del grupo 'root', que tiene permisos de escritura
+      # --- FIN DE LA SECCIÓN AÑADIDA ---
+
       initContainers:
-      # 1. Init Container para clonar el repo 
+      # 1. Init Container para clonar el repo (versión robusta)
       - name: git-clone-data
         image: alpine/git:latest
         command:
