@@ -1,0 +1,5 @@
+# Valores para el ambiente de Pruebas del Frontend
+replicas: 1
+image:
+  tag: "not-deployed-yet"
+
