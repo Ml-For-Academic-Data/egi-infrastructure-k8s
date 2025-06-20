@@ -15,7 +15,8 @@ spec:
       imagePullSecrets:
       {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       
-      # NUEVO: InitContainer para inicializar DB
+      # --- SECCIÓN CORREGIDA ---
+      # El InitContainer ahora solo tiene las variables que necesita.
       initContainers:
       - name: airflow-db-init
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -25,25 +26,8 @@ spec:
             value: {{ .Values.airflow.fernetKey | quote }}
           - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
             value: {{ .Values.airflow.dbConnection | quote }}
-          # --- NUEVAS VARIABLES DE ENTORNO ---
-          - name: AIRFLOW__WWW__USER_CREATE
-            value: "true"
-          - name: AIRFLOW__WWW__USER_USERNAME
-            value: {{ .Values.airflowAdmin.username | quote }}
-          - name: AIRFLOW__WWW__USER_EMAIL
-            value: {{ .Values.airflowAdmin.email | quote }}
-          - name: AIRFLOW__WWW__USER_FIRSTNAME
-            value: {{ .Values.airflowAdmin.firstName | quote }}
-          - name: AIRFLOW__WWW__USER_LASTNAME
-            value: {{ .Values.airflowAdmin.lastName | quote }}
-          - name: AIRFLOW__WWW__USER_ROLE
-            value: "Admin"
-          - name: AIRFLOW__WWW__USER_PASSWORD
-            valueFrom:
-               secretKeyRef:
-                name: {{ .Values.airflowAdmin.passwordSecretName }}
-                key: {{ .Values.airflowAdmin.passwordSecretKey }}
       
+      # Contenedor principal del Scheduler
       containers:
         - name: scheduler
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
