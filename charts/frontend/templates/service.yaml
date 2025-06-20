@@ -3,11 +3,10 @@ kind: Service
 metadata:
   name: frontend-dashboard-service
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  type: NodePort 
   selector:
     app: frontend-dashboard
+  ports:
+    - protocol: TCP
+      port: 5006       
+      targetPort: 5006

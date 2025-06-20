@@ -10,4 +10,4 @@ imagePullSecrets:
 
 service:
   type: ClusterIP
-  port: 5000
+  port: 5006
