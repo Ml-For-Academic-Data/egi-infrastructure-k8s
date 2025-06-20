@@ -1,14 +1,12 @@
 apiVersion: v1
-kind: PersistentVolume
+kind: PersistentVolumeClaim # <-- Nota que el 'kind' (tipo) es PersistentVolumeClaim
 metadata:
-  name: efs-shared-pv
+  name: efs-shared-pvc      # <-- Este es el nombre exacto que tus pods están buscando
+  namespace: desarrollo      # Asegúrate de que esté en el namespace correcto
 spec:
-  capacity:
-    storage: 5Gi 
-  volumeMode: Filesystem
   accessModes:
-    - ReadWriteMany 
-  storageClassName: efs-sc
-  csi:
-    driver: efs.csi.aws.com
-    volumeHandle: fs-0ab9b178d52782307
+    - ReadWriteMany        # <-- Debe coincidir con el modo de acceso del PV
+  storageClassName: efs-sc # <-- Debe coincidir con el storageClassName del PV
+  resources:
+    requests:
+      storage: 5Gi         # La cantidad de espacio que solicitas
