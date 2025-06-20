@@ -15,14 +15,17 @@ spec:
       imagePullSecrets:
       {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       
-      # --- AÑADIDO: Contexto de Seguridad para Permisos de EFS ---
-      securityContext:
-        runAsUser: 50000 # El UID del usuario 'airflow' en la imagen oficial
-        fsGroup: 0       # El GID del grupo 'root', que tiene permisos de escritura
+      initContainers:
+      # --- AÑADIDO: Init Container para arreglar los permisos del volumen ---
+      - name: volume-permissions-fix
+        image: busybox:latest
+        command: ['sh', '-c', 'chmod -R 777 /data']
+        volumeMounts:
+          - name: airflow-data
+            mountPath: /data
       # --- FIN DE LA SECCIÓN AÑADIDA ---
 
-      initContainers:
-      # 1. Init Container para clonar el repo (versión robusta)
+      # 2. Init Container para clonar el repo 
       - name: git-clone-data
         image: alpine/git:latest
         command:
@@ -39,7 +42,7 @@ spec:
           - name: airflow-data
             mountPath: /data
             
-      # 2. El Init Container de Airflow que ya existía
+      # 3. El Init Container de Airflow que ya existía
       - name: airflow-db-init
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
