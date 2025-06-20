@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: infra-storage
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # ¡IMPORTANTE! Reemplaza esta URL por la de tu repositorio egi-infrastructure-k8s
+    repoURL: 'https://github.com/Ml-For-Academic-Data/egi-infrastructure-k8s' 
+    targetRevision: main
+    path: storage # <-- Aquí le decimos que mire la carpeta 'storage' que ya creaste
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: desarrollo 
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
