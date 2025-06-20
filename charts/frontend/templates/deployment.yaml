@@ -57,7 +57,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 5006
+              containerPort: 5000
               protocol: TCP
           volumeMounts:
             - name: shared-data

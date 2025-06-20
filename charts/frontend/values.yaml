@@ -22,6 +22,6 @@ service:
   # CAMBIO: Ahora es NodePort para que sea accesible desde fuera del clúster
   type: NodePort
   # Puerto que el servicio expone internamente en el clúster
-  port: 5006
+  port: 5000
   # Puerto en el que la aplicación está escuchando dentro del contenedor
-  containerPort: 5006
+  containerPort: 5000
