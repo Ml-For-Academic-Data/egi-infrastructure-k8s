@@ -15,22 +15,25 @@ spec:
       imagePullSecrets:
       {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       
-      # --- INICIO DE LA SECCIÓN MODIFICADA ---
       initContainers:
-      # 1. Nuevo Init Container para clonar el repositorio de datos
+      # --- INICIO DE LA SECCIÓN CORREGIDA ---
+      # 1. Init Container para clonar el repo (versión robusta)
       - name: git-clone-data
         image: alpine/git:latest
-        args:
-          - clone
-          - --single-branch
-          - --depth
-          - "1"
-          - --
-          - https://github.com/Ml-For-Academic-Data/egi-control.git
-          - /data/repo-datos
+        command:
+          - sh
+          - -c
+          - |
+            if [ ! -d /data/repo-datos/.git ]; then
+              echo "Clonando repositorio de datos..."
+              git clone --single-branch --depth 1 https://github.com/Ml-For-Academic-Data/egi-control.git /data/repo-datos
+            else
+              echo "El repositorio ya existe, omitiendo clonación."
+            fi
         volumeMounts:
           - name: airflow-data
             mountPath: /data
+      # --- FIN DE LA SECCIÓN CORREGIDA ---
             
       # 2. El Init Container de Airflow que ya existía
       - name: airflow-db-init
@@ -44,7 +47,6 @@ spec:
         volumeMounts:
           - name: airflow-data
             mountPath: /opt/airflow/data
-      # --- FIN DE LA SECCIÓN MODIFICADA ---
 
       containers:
         - name: scheduler
