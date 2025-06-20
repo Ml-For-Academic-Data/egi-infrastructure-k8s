@@ -15,9 +15,24 @@ spec:
       imagePullSecrets:
       {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       
-      # --- SECCIÓN CORREGIDA ---
-      # El InitContainer ahora solo tiene las variables que necesita.
+      # --- INICIO DE LA SECCIÓN MODIFICADA ---
       initContainers:
+      # 1. Nuevo Init Container para clonar el repositorio de datos
+      - name: git-clone-data
+        image: alpine/git:latest
+        args:
+          - clone
+          - --single-branch
+          - --depth
+          - "1"
+          - --
+          - https://github.com/Ml-For-Academic-Data/egi-control.git 
+          - /data/repo-datos
+        volumeMounts:
+          - name: airflow-data
+            mountPath: /data
+
+      # 2. El Init Container de Airflow que ya existía
       - name: airflow-db-init
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -27,8 +42,11 @@ spec:
             value: {{ .Values.airflow.fernetKey | quote }}
           - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
             value: {{ .Values.airflow.dbConnection | quote }}
+        volumeMounts:
+          - name: airflow-data
+            mountPath: /opt/airflow/data
+      # --- FIN DE LA SECCIÓN MODIFICADA ---
       
-      # Contenedor principal del Webserver
       containers:
         - name: webserver
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -41,7 +59,6 @@ spec:
               value: {{ .Values.airflow.dbConnection | quote }}
             - name: AIRFLOW__CORE__EXECUTOR
               value: "SequentialExecutor"
-            # Estas variables para crear el usuario están en el lugar correcto.
             - name: AIRFLOW__WWW__USER_CREATE
               value: "true"
             - name: AIRFLOW__WWW__USER_USERNAME
@@ -61,5 +78,13 @@ spec:
                   key: {{ .Values.airflowAdmin.passwordSecretKey }}
           ports:
             - name: http
-              containerPort: 8080 # Nota: El puerto interno del webserver es 8080, no 8793.
+              containerPort: 8080
               protocol: TCP
+          volumeMounts:
+            - name: airflow-data
+              mountPath: /opt/airflow/data
+              
+      volumes:
+        - name: airflow-data
+          persistentVolumeClaim:
+            claimName: efs-shared-pvc

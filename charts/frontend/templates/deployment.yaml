@@ -22,3 +22,14 @@ spec:
             - name: http
               containerPort: 5000
               protocol: TCP
+          # --- AÑADIDO: Montaje del volumen para el container del frontend ---
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data # Montamos el EFS en una carpeta /data
+
+      # --- AÑADIDO: Definición del volumen que se va a montar ---
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            # Usamos el MISMO PVC que el backend para acceder a los mismos datos
+            claimName: efs-shared-pvc
