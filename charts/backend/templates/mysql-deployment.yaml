@@ -12,27 +12,37 @@ spec:
       labels:
         app: mysql-server
     spec:
-      # --- CORRECCIÓN CLAVE: CONTEXTO DE SEGURIDAD ---
-      # Esto asegura que el volumen montado sea propiedad del grupo correcto,
-      # permitiendo que el proceso de MySQL pueda escribir en él.
       securityContext:
-        # El usuario 'mysql' dentro del contenedor oficial pertenece al grupo 999.
         fsGroup: 999
         runAsUser: 999
         runAsGroup: 999
-      # --- FIN DE LA CORRECCIÓN ---
       containers:
         - name: mysql
           image: {{ .Values.mysql.image }}
           ports:
             - containerPort: 3306
           env:
+            # Variable para la contraseña del usuario 'root'
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.mysql.existingSecret }}
                   key: mysql-root-password
-            # ... (resto de tus variables de entorno para MySQL)
+
+            # Variable para crear la base de datos automáticamente
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.database | quote }}
+
+            # Variable para crear un usuario normal automáticamente
+            - name: MYSQL_USER
+              value: {{ .Values.mysql.user | quote }}
+
+            # Variable para la contraseña del usuario normal
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.existingSecret }}
+                  key: mysql-password
           volumeMounts:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql
