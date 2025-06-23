@@ -18,5 +18,9 @@ services:
     image:
       repository: ghcr.io/ml-for-academic-data/egi-static-web # Nuevo nombre de imagen
       tag: "initial-tag" # El CI lo actualizará
-
-
+visualization:
+  image:
+    tag: e563013
+staticWeb:
+  image:
+    tag: e563013
