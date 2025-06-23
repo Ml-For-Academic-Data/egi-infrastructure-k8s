@@ -1,22 +1,24 @@
 # Valores para el ambiente de Desarrollo del Frontend
+
 #replicas: 1
 #image:
- # tag: 'ac083f4'
+#  tag: 'ac083f4'
 
-  # Lista de servicios a desplegar con este chart
+# Lista de servicios a desplegar con este chart
 services:
   # El servicio de visualización existente
   visualization:
     enabled: true
     image:
-      repository: ghcr.io/ml-for-academic-data/egi-dashboard # Nuevo nombre de imagen
+      repository: ghcr.io/ml-for-academic-data/egi-visualization # Nuevo nombre de imagen
       tag: 'ac083f4' # El CI lo actualizará
-
-    
-  # El nuevo servicio de autenticación
-  static-web:
+  # El nuevo servicio de templates
+  templates:
     enabled: true
     image:
-      repository: ghcr.io/ml-for-academic-data/egi-static-web # Nuevo nombre de imagen
+      repository: ghcr.io/ml-for-academic-data/egi-templates # Nuevo nombre de imagen
       tag: "initial-tag" # El CI lo actualizará
-
+    port: 3000 # Puerto de la nueva app
+visualization:
+  image:
+    tag: fe79495
