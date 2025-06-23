@@ -13,12 +13,10 @@ services:
       repository: ghcr.io/ml-for-academic-data/egi-visualization # Nuevo nombre de imagen
       tag: 'ac083f4' # El CI lo actualizará
   # El nuevo servicio de templates
-  templates:
+  staticWeb:
     enabled: true
     image:
-      repository: ghcr.io/ml-for-academic-data/egi-templates # Nuevo nombre de imagen
+      repository: ghcr.io/ml-for-academic-data/egi-static-web # Nuevo nombre de imagen
       tag: "initial-tag" # El CI lo actualizará
-    port: 3000 # Puerto de la nueva app
-visualization:
-  image:
-    tag: fe79495
+
+
