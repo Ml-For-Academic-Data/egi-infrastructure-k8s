@@ -31,6 +31,6 @@ services:
       tag: "8ebbf85"
     port: 3000
     # Este servicio no necesita montar ningún volumen, así que omitimos la sección 'volumeMounts'.
-  staticWeb:
+  static-web:
     image:
       tag: 12e6adc
