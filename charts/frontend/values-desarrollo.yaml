@@ -1,26 +1,34 @@
-# Valores para el ambiente de Desarrollo del Frontend
+# ===================================================================
+# Archivo de Valores para el Ambiente de Desarrollo del Frontend
+# ===================================================================
 
-#replicas: 1
-#image:
-#  tag: 'ac083f4'
+# --- Definiciones Globales de Volúmenes ---
+# Aquí se definen todos los volúmenes que CUALQUIER servicio de este chart podría usar.
+volumes:
+  - name: shared-data
+    persistentVolumeClaim:
+      # Asegúrate que este PVC (PersistentVolumeClaim) exista en tu clúster.
+      claimName: efs-shared-pvc
 
-# Lista de servicios a desplegar con este chart
+# --- Definición de Microservicios ---
+# El pipeline de CI/CD actualizará los 'tag' de las imágenes automáticamente.
 services:
-  # El servicio de visualización existente
   visualization:
     enabled: true
     image:
-      repository: ghcr.io/ml-for-academic-data/egi-visualization # Nuevo nombre de imagen
-      tag: 'ac083f4' # El CI lo actualizará
-  # El nuevo servicio de templates
+      repository: ghcr.io/ml-for-academic-data/egi-dashboard
+      tag: "initial-tag"
+    port: 5000
+    # --- Montaje Específico para este Servicio ---
+    # Le decimos a este servicio que monte el volumen 'shared-data'.
+    volumeMounts:
+      - name: shared-data # Debe coincidir con un 'name' de la lista global de arriba.
+        mountPath: /data   # La ruta donde se montará dentro del contenedor.
+
   staticWeb:
     enabled: true
     image:
-      repository: ghcr.io/ml-for-academic-data/egi-static-web # Nuevo nombre de imagen
-      tag: "initial-tag" # El CI lo actualizará
-visualization:
-  image:
-    tag: e563013
-staticWeb:
-  image:
-    tag: e563013
+      repository: ghcr.io/ml-for-academic-data/egi-static-web
+      tag: "initial-tag"
+    port: 3000
+    # Este servicio no necesita montar ningún volumen, así que omitimos la sección 'volumeMounts'.
