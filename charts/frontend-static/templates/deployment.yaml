@@ -1,0 +1,56 @@
+{{/* ================================================================= */}}
+{{/* Plantilla de Deployment Genérica para Microservicios           */}}
+{{/* ================================================================= */}}
+{{/* Este bucle itera sobre cada servicio definido en .Values.services (ej: visualization, static-web) */}}
+{{- range $name, $service := .Values.services }}
+
+{{/* Solo se genera el siguiente manifiesto si el servicio tiene 'enabled: true' en values.yaml */}}
+{{- if $service.enabled }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Crea un nombre único para el deployment, ej: "frontend-prod-visualization"
+  name: {{ $.Release.Name }}-{{ $name }}
+  labels:
+    app: {{ $.Release.Name }}-{{ $name }}
+spec:
+  replicas: 1 # Por simplicidad, se deja en 1. Se puede parametrizar por servicio.
+  selector:
+    matchLabels:
+      app: {{ $.Release.Name }}-{{ $name }}
+  template:
+    metadata:
+      labels:
+        # La etiqueta del Pod es crucial, debe coincidir con el selector del Deployment y del Service.
+        app: {{ $.Release.Name }}-{{ $name }}
+    spec:
+      # --- SECCIÓN DE VOLÚMENES ---
+      # Primero, definimos los volúmenes que estarán disponibles para este Pod.
+      # Se toman de una lista global 'volumes' en tu archivo de valores.
+      {{- if $.Values.volumes }}
+      volumes:
+        {{- toYaml $.Values.volumes | nindent 8 }}
+      {{- end }}
+      
+      containers:
+        - name: {{ $name }}
+          # Construye la URL completa de la imagen usando los valores del servicio actual en el bucle
+          image: "{{ $service.image.repository }}:{{ $service.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: {{ $service.port }}
+              protocol: TCP
+              
+          # --- SECCIÓN DE MONTAJE DE VOLÚMENES ---
+          # Ahora, montamos los volúmenes DENTRO del contenedor.
+          # Esto solo se agrega si 'volumeMounts' está definido para el servicio específico
+          # en el archivo de valores.
+          {{- if $service.volumeMounts }}
+          volumeMounts:
+            {{- toYaml $service.volumeMounts | nindent 12 }}
+          {{- end }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,29 @@
+{{/* ================================================================= */}}
+{{/* Plantilla de Service Genérica para Microservicios             */}}
+{{/* ================================================================= */}}
+{{/* Este bucle itera sobre cada servicio definido en .Values.services */}}
+{{- range $name, $service := .Values.services }}
+
+{{/* Solo genera el manifiesto si el servicio está habilitado */}}
+{{- if $service.enabled }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # Crea un nombre único para el servicio, ej: "frontend-prod-visualization-service"
+  name: {{ $.Release.Name }}-{{ $name }}-service
+spec:
+  # ClusterIP es el tipo por defecto, ideal para comunicación interna o vía Ingress.
+  type: {{ $service.type | default "ClusterIP" }}
+  ports:
+    - port: {{ $service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    # Este selector es crucial: apunta a los Pods con la etiqueta correspondiente
+    # creada por el Deployment.
+    app: {{ $.Release.Name }}-{{ $name }}
+{{- end }}
+{{- end }}

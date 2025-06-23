@@ -1,0 +1,23 @@
+# --- values.yaml para static-web ---
+
+replicas: 1
+
+# El nombre de la aplicación
+appName: static-web
+
+image:
+  # Asegúrate de que este sea el nombre correcto de tu nueva imagen
+  repository: ghcr.io/ml-for-academic-data/egi-static-web
+  pullPolicy: IfNotPresent
+  # El tag de la imagen que quieres desplegar
+  tag: "12e6adc"
+
+imagePullSecrets:
+  - name: ghcr-credentials
+
+# Configuración del servicio de red
+service:
+  type: NodePort
+  # El puerto en el que corre tu app Flask, según los logs es el 3000
+  port: 3000
+  containerPort: 3000

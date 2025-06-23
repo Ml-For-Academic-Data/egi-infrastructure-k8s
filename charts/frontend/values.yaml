@@ -25,3 +25,5 @@ service:
   port: 5000
   # Puerto en el que la aplicación está escuchando dentro del contenedor
   containerPort: 5000
+
+  
