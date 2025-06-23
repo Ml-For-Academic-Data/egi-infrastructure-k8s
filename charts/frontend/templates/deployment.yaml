@@ -1,7 +1,7 @@
 {{/* ================================================================= */}}
 {{/* Plantilla de Deployment Genérica para Microservicios           */}}
 {{/* ================================================================= */}}
-{{/* Este bucle itera sobre cada servicio definido en .Values.services (ej: visualization, staticWeb) */}}
+{{/* Este bucle itera sobre cada servicio definido en .Values.services (ej: visualization, static-web) */}}
 {{- range $name, $service := .Values.services }}
 
 {{/* Solo se genera el siguiente manifiesto si el servicio tiene 'enabled: true' en values.yaml */}}
