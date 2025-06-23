@@ -17,7 +17,7 @@ services:
     type: NodePort
     image:
       repository: ghcr.io/ml-for-academic-data/egi-dashboard
-      tag: "12e6adc"
+      tag: "2e93b4c"
     port: 5000
     # --- Montaje Específico para este Servicio ---
     # Le decimos a este servicio que monte el volumen 'shared-data'.
@@ -30,4 +30,6 @@ services:
       repository: ghcr.io/ml-for-academic-data/egi-static-web
       tag: "12e6adc"
     port: 3000
-
+  staticWeb:
+    image:
+      tag: 2e93b4c
