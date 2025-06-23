@@ -15,7 +15,7 @@ metadata:
   name: {{ $.Release.Name }}-{{ $name }}-service
 spec:
   # ClusterIP es el tipo por defecto, ideal para comunicación interna o vía Ingress.
-  type: ClusterIP
+  type: {{ $service.type | default "ClusterIP" }}
   ports:
     - port: {{ $service.port }}
       targetPort: http
