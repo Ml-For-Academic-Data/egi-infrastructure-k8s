@@ -21,4 +21,4 @@ services:
     port: 3000 # Puerto de la nueva app
 visualization:
   image:
-    tag: 9d2ffa4
+    tag: fe79495
