@@ -1,0 +1,19 @@
+# --- service.yaml ---
+
+apiVersion: v1
+kind: Service
+metadata:
+  # El nombre del servicio ahora usa la variable appName
+  name: {{ .Values.appName }}-service
+spec:
+  # El tipo de servicio ahora usa la variable del service
+  type: {{ .Values.service.type }}
+  selector:
+    # El selector ahora usa la variable appName
+    app: {{ .Values.appName }}
+  ports:
+    - protocol: TCP
+      # El puerto del servicio ahora usa la variable del service
+      port: {{ .Values.service.port }}
+      # El puerto de destino ahora usa la variable del service
+      targetPort: {{ .Values.service.containerPort }}
