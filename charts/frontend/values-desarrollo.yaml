@@ -1,4 +1,4 @@
 # Valores para el ambiente de Desarrollo del Frontend
 replicas: 1
 image:
-  tag: 'ac083f4'
+  tag: '98d72ed'
