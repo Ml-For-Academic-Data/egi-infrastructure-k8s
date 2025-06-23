@@ -25,7 +25,7 @@ services:
       - name: shared-data # Debe coincidir con un 'name' de la lista global de arriba.
         mountPath: /data   # La ruta donde se montará dentro del contenedor.
 
-  staticWeb:
+  static-web:
     enabled: true
     image:
       repository: ghcr.io/ml-for-academic-data/egi-static-web
