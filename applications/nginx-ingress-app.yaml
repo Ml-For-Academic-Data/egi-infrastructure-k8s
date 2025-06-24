@@ -11,20 +11,24 @@ spec:
     chart: ingress-nginx
     targetRevision: 4.10.0
     helm:
-      # --- SECCIÓN DE VALORES CORREGIDA Y SIMPLIFICADA ---
       values: |
         controller:
-          # Para un solo nodo, 1 réplica es suficiente
           replicaCount: 1
-          # Hacemos que el controller vigile todos los namespaces
-          watchIngressWithoutClass: true
+          
+          # Habilita y define el recurso IngressClass para que el controlador
+          # gestione los Ingress que especifiquen `ingressClassName: nginx`.
+          ingressClassResource:
+            name: nginx
+            enabled: true
+            default: true
+
+          # Permite que el controlador observe los Ingress en todos los namespaces.
           scope:
             enabled: true
-          # Especificamos explícitamente el tipo de servicio como NodePort
+          
+          # Define el tipo de servicio del controlador.
           service:
             type: NodePort
-            # Ya no necesitamos las anotaciones de AWS
-            # annotations: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
