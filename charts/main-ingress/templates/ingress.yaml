@@ -1,5 +1,4 @@
-# charts/main-ingress/templates/ingress.yaml
-
+# En: charts/main-ingress/templates/ingress.yaml
 {{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -7,31 +6,33 @@ metadata:
   name: main-egi-ingress
   namespace: desarrollo
   annotations:
-    # --- ANOTACIÓN CORREGIDA ---
-    # La sintaxis es: <namespace>-<nombre-middleware>@kubernetescrd
-    traefik.ingress.kubernetes.io/router.middlewares: "desarrollo-strip-airflow-prefix@kubernetescrd, desarrollo-strip-panel-prefix@kubernetescrd"
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
-  ingressClassName: traefik # Esto está bien, lo dejamos
+  # --- CLASE DE INGRESS CAMBIADA ---
+  ingressClassName: nginx
   rules:
   - http:
       paths:
-      # ... (el resto de las reglas de 'paths' se quedan como están) ...
-      - path: {{ .Values.paths.static_web.path }}
-        pathType: {{ .Values.paths.static_web.pathType }}
+      # La ruta raíz no necesita cambios
+      - path: /
+        pathType: Prefix
         backend:
           service:
             name: {{ .Values.paths.static_web.serviceName }}
             port:
               number: {{ .Values.paths.static_web.servicePort }}
-      - path: {{ .Values.paths.panel.path }}
-        pathType: {{ .Values.paths.panel.pathType }}
+
+      # --- RUTAS MODIFICADAS PARA NGINX ---
+      - path: /panel(/|$)(.*)
+        pathType: ImplementationSpecific
         backend:
           service:
             name: {{ .Values.paths.panel.serviceName }}
             port:
               number: {{ .Values.paths.panel.servicePort }}
-      - path: {{ .Values.paths.airflow.path }}
-        pathType: {{ .Values.paths.airflow.pathType }}
+
+      - path: /airflow(/|$)(.*)
+        pathType: ImplementationSpecific
         backend:
           service:
             name: {{ .Values.paths.airflow.serviceName }}

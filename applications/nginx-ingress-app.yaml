@@ -1,0 +1,25 @@
+# En: applications/nginx-ingress-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-ingress
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # Apunta al repositorio oficial de charts de NGINX Ingress
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    chart: ingress-nginx
+    targetRevision: 4.10.1 # Usar una versión específica es buena práctica
+    helm:
+      releaseName: nginx-ingress
+  destination:
+    # NGINX se instalará en su propio namespace
+    namespace: ingress-nginx
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
