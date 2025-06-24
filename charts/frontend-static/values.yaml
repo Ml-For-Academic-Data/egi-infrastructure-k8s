@@ -15,7 +15,7 @@ services:
     port: 3000 
     
     # El tipo de servicio, que se leerá como {{ $service.type }}
-    type: NodePort
+    type: ClusterIP
 
     env:
       AIRFLOW_URL: "http://54.204.172.139:32693"

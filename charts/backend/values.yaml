@@ -24,7 +24,7 @@ airflow:
 # Configuración específica para el servicio del webserver.
 # CORRECCIÓN: Renombrado de 'webserver_service' a 'service' para que coincida con la plantilla.
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8080
 
 # Configuración para la base de datos MySQL.

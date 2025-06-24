@@ -1,0 +1,33 @@
+ingress:
+  enabled: true
+  # Anotaciones para tu Ingress Controller (ej: nginx, traefik).
+  # Para Traefik (común en K3s) podrías necesitar 'traefik.ingress.kubernetes.io/router.strip-prefix: "true"'
+  # Para NGINX, 'nginx.ingress.kubernetes.io/rewrite-target: /' es común.
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+# Definición centralizada de todas las rutas de la plataforma
+paths:
+  # Ruta para el portal estático
+  static_web:
+    path: /
+    pathType: Prefix
+    # OJO: El nombre del servicio debe coincidir con el que se crea en el chart 'frontend-static'
+    serviceName: egi-static-web-desarrollo-static-web-service
+    servicePort: 3000
+
+  # Ruta para el Dashboard Panel
+  panel:
+    path: /panel
+    pathType: Prefix
+    # OJO: El nombre del servicio debe coincidir con el que se crea en el chart 'frontend'
+    serviceName: egi-frontend-desarrollo-visualization-service
+    servicePort: 5000
+
+  # Ruta para Airflow
+  airflow:
+    path: /airflow
+    pathType: Prefix
+    # OJO: El nombre del servicio debe coincidir con el que se crea en el chart 'backend'
+    serviceName: backend-airflow-webserver
+    servicePort: 8080
