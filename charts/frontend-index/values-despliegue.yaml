@@ -1,3 +1,0 @@
-replicas: 2
-image:
-  tag: "not-deployed-yet"
