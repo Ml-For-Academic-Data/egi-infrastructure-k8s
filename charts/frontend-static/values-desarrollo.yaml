@@ -1,5 +1,9 @@
 # --- charts/frontend-static/values-desarrollo.yaml 
-  static-web:
+static-web:
+  image:
+    # Sobrescribimos únicamente el tag para el ambiente de desarrollo
+    tag: "831e509"
+services:
+  staticWeb:
     image:
-      # Sobrescribimos únicamente el tag para el ambiente de desarrollo
-      tag: "831e509"
+      tag: 9b2ca14
