@@ -4,7 +4,7 @@ ingress:
   # Para Traefik (común en K3s) podrías necesitar 'traefik.ingress.kubernetes.io/router.strip-prefix: "true"'
   # Para NGINX, 'nginx.ingress.kubernetes.io/rewrite-target: /' es común.
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 
 # Definición centralizada de todas las rutas de la plataforma
 paths:
