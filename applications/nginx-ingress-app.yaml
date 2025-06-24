@@ -25,9 +25,7 @@ spec:
           
           service:
             type: LoadBalancer
-            # [CAMBIO FINAL] Agregamos esta anotación para pedir un balanceador público a AWS.
-            annotations:
-              service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+            
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
