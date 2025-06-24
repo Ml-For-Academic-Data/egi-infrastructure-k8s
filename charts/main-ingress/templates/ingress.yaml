@@ -3,7 +3,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: main-egi-ingress
+  name: main-ingress
   namespace: desarrollo
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
