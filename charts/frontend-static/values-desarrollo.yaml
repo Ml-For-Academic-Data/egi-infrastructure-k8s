@@ -1,12 +1,5 @@
-# --- charts/frontend-static/values-desarrollo.yaml 
-static-web:
-  image:
-    # Sobrescribimos únicamente el tag para el ambiente de desarrollo
-    tag: "831e509"
+# Este archivo es generado automáticamente por el pipeline de CI/CD.
 services:
-  staticWeb:
-    image:
-      tag: 9b2ca14
   static-web:
     image:
-      tag: 04a57e6
+      tag: "b66a41f"
