@@ -1,15 +1,21 @@
+# charts/main-ingress/templates/ingress.yaml
+
 {{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: main-egi-ingress
+  namespace: desarrollo
   annotations:
+    # --- ANOTACIÓN CORREGIDA ---
+    # La sintaxis es: <namespace>-<nombre-middleware>@kubernetescrd
     traefik.ingress.kubernetes.io/router.middlewares: "desarrollo-strip-airflow-prefix@kubernetescrd, desarrollo-strip-panel-prefix@kubernetescrd"
 spec:
+  ingressClassName: traefik # Esto está bien, lo dejamos
   rules:
   - http:
       paths:
-      # Regla para el Portal Estático (frontend-static)
+      # ... (el resto de las reglas de 'paths' se quedan como están) ...
       - path: {{ .Values.paths.static_web.path }}
         pathType: {{ .Values.paths.static_web.pathType }}
         backend:
@@ -17,8 +23,6 @@ spec:
             name: {{ .Values.paths.static_web.serviceName }}
             port:
               number: {{ .Values.paths.static_web.servicePort }}
-
-      # Regla para el Panel/Dashboard (frontend)
       - path: {{ .Values.paths.panel.path }}
         pathType: {{ .Values.paths.panel.pathType }}
         backend:
@@ -26,8 +30,6 @@ spec:
             name: {{ .Values.paths.panel.serviceName }}
             port:
               number: {{ .Values.paths.panel.servicePort }}
-
-      # Regla para el Webserver de Airflow (backend)
       - path: {{ .Values.paths.airflow.path }}
         pathType: {{ .Values.paths.airflow.pathType }}
         backend:
