@@ -20,11 +20,9 @@ spec:
           # Ingresses incluso si no tienen una ingressClassName definida.
           # Aumenta la compatibilidad.
           watchIngressWithoutClass: true
-          scope:
-            # Habilita la configuración del scope (alcance)
-            enabled: true
-            # DEJAR VACÍO "" SIGNIFICA VIGILAR TODOS LOS NAMESPACES
-            namespace: ""
+          extraArgs:
+            # Este argumento vacío le dice explícitamente que vigile TODOS los namespaces.
+            watch-namespace: ""
   destination:
     namespace: ingress-nginx
     server: https://kubernetes.default.svc
