@@ -1,0 +1,4 @@
+image:
+  # Reemplaza 'latest' o pon el tag específico de la imagen
+  # de Docker para tu static-web que quieres en desarrollo.
+  tag: "2d41f52"
