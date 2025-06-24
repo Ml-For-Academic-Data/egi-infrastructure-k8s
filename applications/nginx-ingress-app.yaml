@@ -1,4 +1,5 @@
 # En: applications/nginx-ingress-app.yaml
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -12,17 +13,20 @@ spec:
     targetRevision: 4.10.1
     helm:
       releaseName: nginx-ingress
-      # --- SECCIÓN AÑADIDA ---
-      # Estos valores le dicen al chart de NGINX cómo configurarse.
+      # --- SECCIÓN DE VALORES CORREGIDA Y FINAL ---
       values: |
         controller:
-          # Esta línea es clave. Le dice al controller que procese
-          # Ingresses incluso si no tienen una ingressClassName definida.
-          # Aumenta la compatibilidad.
+          # Esta línea es útil, la dejamos.
           watchIngressWithoutClass: true
-          extraArgs:
-            # Este argumento vacío le dice explícitamente que vigile TODOS los namespaces.
-            watch-namespace: ""
+          
+          # Esta es la forma correcta y soportada por el chart
+          # para configurar el alcance de vigilancia.
+          scope:
+            enabled: true # Habilita esta configuración
+            # Al dejar namespace vacío, el chart se encarga de
+            # NO añadir el argumento --watch-namespace, que es
+            # el comportamiento por defecto para vigilar todo.
+            namespace: "" 
   destination:
     namespace: ingress-nginx
     server: https://kubernetes.default.svc
