@@ -2,4 +2,4 @@
   static-web:
     image:
       # Sobrescribimos únicamente el tag para el ambiente de desarrollo
-      tag: "2d41f52"
+      tag: "831e509"
