@@ -24,6 +24,3 @@ services:
     volumeMounts:
       - name: shared-data # Debe coincidir con un 'name' de la lista global de arriba.
         mountPath: /data # La ruta donde se montará dentro del contenedor.
-  staticWeb:
-    image:
-      tag: 831e509
