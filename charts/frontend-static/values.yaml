@@ -9,8 +9,6 @@ image:
   # Asegúrate de que este sea el nombre correcto de tu nueva imagen
   repository: ghcr.io/ml-for-academic-data/egi-static-web
   pullPolicy: IfNotPresent
-  # El tag de la imagen que quieres desplegar
-  tag: "12e6adc"
 
 imagePullSecrets:
   - name: ghcr-credentials
