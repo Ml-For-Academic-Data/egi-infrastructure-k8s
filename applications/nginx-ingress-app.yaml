@@ -7,14 +7,25 @@ metadata:
 spec:
   project: default
   source:
-    # Apunta al repositorio oficial de charts de NGINX Ingress
     repoURL: https://kubernetes.github.io/ingress-nginx
     chart: ingress-nginx
-    targetRevision: 4.10.1 # Usar una versión específica es buena práctica
+    targetRevision: 4.10.1
     helm:
       releaseName: nginx-ingress
+      # --- SECCIÓN AÑADIDA ---
+      # Estos valores le dicen al chart de NGINX cómo configurarse.
+      values: |
+        controller:
+          # Esta línea es clave. Le dice al controller que procese
+          # Ingresses incluso si no tienen una ingressClassName definida.
+          # Aumenta la compatibilidad.
+          watchIngressWithoutClass: true
+          scope:
+            # Habilita la configuración del scope (alcance)
+            enabled: true
+            # DEJAR VACÍO "" SIGNIFICA VIGILAR TODOS LOS NAMESPACES
+            namespace: ""
   destination:
-    # NGINX se instalará en su propio namespace
     namespace: ingress-nginx
     server: https://kubernetes.default.svc
   syncPolicy:
