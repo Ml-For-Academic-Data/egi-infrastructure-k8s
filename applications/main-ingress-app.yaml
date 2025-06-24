@@ -1,0 +1,30 @@
+# En: applications/main-ingress-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # Nombre de esta nueva aplicación en Argo CD
+  name: main-ingress 
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # --- AQUÍ VA TU REPOSITORIO ---
+    # Reemplaza esto con la URL de tu repositorio egi-infrastructure-k8s
+    repoURL: https://github.com/Ml-For-Academic-Data/egi-infrastructure-k8s
+    
+    # La rama que Argo CD debe observar
+    targetRevision: main 
+    
+    # La ruta dentro de tu repositorio donde se encuentra el chart
+    path: charts/main-ingress 
+
+  destination:
+    server: https://kubernetes.default.svc
+    # El namespace donde se crearán las reglas de Ingress
+    namespace: desarrollo 
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
