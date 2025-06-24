@@ -28,7 +28,8 @@ spec:
           
           # Define el tipo de servicio del controlador.
           service:
-            type: NodePort
+            # [CAMBIO] Se cambió de NodePort a LoadBalancer para obtener una IP externa en la nube.
+            type: LoadBalancer
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
