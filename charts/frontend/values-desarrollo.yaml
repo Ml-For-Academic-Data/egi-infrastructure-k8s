@@ -24,16 +24,3 @@ services:
     volumeMounts:
       - name: shared-data # Debe coincidir con un 'name' de la lista global de arriba.
         mountPath: /data # La ruta donde se montará dentro del contenedor.
-<<<<<<< HEAD
-
-=======
-  static-web:
-    enabled: true
-    image:
-      repository: ghcr.io/ml-for-academic-data/egi-static-web
-      tag: "12e6adc"
-    port: 3000
-  staticWeb:
-    image:
-      tag: 2d41f52
->>>>>>> 5c60da4be8761a289efe1d58374b90876a0625d2
