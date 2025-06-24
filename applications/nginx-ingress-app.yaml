@@ -1,3 +1,4 @@
+# En: applications/nginx-ingress-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -8,15 +9,22 @@ spec:
   source:
     repoURL: https://kubernetes.github.io/ingress-nginx
     chart: ingress-nginx
-    targetRevision: 4.10.0  # Podés actualizar a la última versión estable
+    targetRevision: 4.10.0
     helm:
+      # --- SECCIÓN DE VALORES CORREGIDA Y SIMPLIFICADA ---
       values: |
         controller:
-          replicaCount: 2
+          # Para un solo nodo, 1 réplica es suficiente
+          replicaCount: 1
+          # Hacemos que el controller vigile todos los namespaces
+          watchIngressWithoutClass: true
+          scope:
+            enabled: true
+          # Especificamos explícitamente el tipo de servicio como NodePort
           service:
-            type: LoadBalancer
-            annotations:
-              service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+            type: NodePort
+            # Ya no necesitamos las anotaciones de AWS
+            # annotations: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
@@ -24,3 +32,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
