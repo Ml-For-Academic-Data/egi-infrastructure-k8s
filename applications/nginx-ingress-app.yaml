@@ -1,5 +1,4 @@
 # En: applications/nginx-ingress-app.yaml
-
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -13,19 +12,11 @@ spec:
     targetRevision: 4.10.1
     helm:
       releaseName: nginx-ingress
-      # --- SECCIÓN DE VALORES CORREGIDA Y FINAL ---
       values: |
         controller:
-          # Esta línea es útil, la dejamos.
           watchIngressWithoutClass: true
-          
-          # Esta es la forma correcta y soportada por el chart
-          # para configurar el alcance de vigilancia.
           scope:
-            enabled: true # Habilita esta configuración
-            # Al dejar namespace vacío, el chart se encarga de
-            # NO añadir el argumento --watch-namespace, que es
-            # el comportamiento por defecto para vigilar todo.
+            enabled: true
             namespace: "" 
   destination:
     namespace: ingress-nginx
