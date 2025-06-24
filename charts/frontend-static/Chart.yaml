@@ -1,0 +1,10 @@
+apiVersion: v2
+# El nombre de tu chart, idealmente igual que la carpeta
+name: frontend-static
+description: Un Helm chart para el frontend estático de EGI.
+
+# Versión del chart. Si haces cambios, incrementas este número.
+version: 0.1.0
+
+# Versión de la aplicación que este chart despliega.
+appVersion: "1.0.0"
