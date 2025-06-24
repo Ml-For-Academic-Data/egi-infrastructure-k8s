@@ -9,7 +9,7 @@ services:
     image:
       repository: ghcr.io/ml-for-academic-data/egi-static-web
       # El tag por defecto, se puede sobrescribir.
-      tag: "2d41f52" 
+      tag: "9b2ca14" 
     
     # El puerto, que se leerá como {{ $service.port }}
     port: 3000 
