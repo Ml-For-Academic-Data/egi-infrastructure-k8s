@@ -15,17 +15,18 @@ spec:
         controller:
           replicaCount: 1
           
+          # Se agrega esta línea para que el controlador vigile TODOS los namespaces.
+          watchNamespace: ""
+
           ingressClassResource:
             name: nginx
             enabled: true
             default: true
-
-          scope:
-            enabled: true
           
+          # El servicio se deja como LoadBalancer pero SIN la anotación de AWS,
+          # para que lo gestione el service-lb-controller de tu clúster.
           service:
             type: LoadBalancer
-            
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
