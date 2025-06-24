@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # Nombre de la nueva aplicación que verás en Argo CD
+  name: egi-static-web-desarrollo
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # Reemplaza esto con la URL de tu repositorio de infraestructura
+    repoURL: 'https://github.com/Ml-For-Academic-Data/egi-infrastructure-k8s'
+    targetRevision: main
+    # Aquí le decimos que apunte a la carpeta chart
+    path: charts/frontend-static 
+    helm:
+      # Le decimos qué archivos de valores usar
+      valueFiles:
+        - values.yaml
+        - values-desarrollo.yaml 
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: desarrollo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
