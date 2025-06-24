@@ -15,21 +15,19 @@ spec:
         controller:
           replicaCount: 1
           
-          # Habilita y define el recurso IngressClass para que el controlador
-          # gestione los Ingress que especifiquen `ingressClassName: nginx`.
           ingressClassResource:
             name: nginx
             enabled: true
             default: true
 
-          # Permite que el controlador observe los Ingress en todos los namespaces.
           scope:
             enabled: true
           
-          # Define el tipo de servicio del controlador.
           service:
-            # [CAMBIO] Se cambió de NodePort a LoadBalancer para obtener una IP externa en la nube.
             type: LoadBalancer
+            # [CAMBIO FINAL] Agregamos esta anotación para pedir un balanceador público a AWS.
+            annotations:
+              service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
