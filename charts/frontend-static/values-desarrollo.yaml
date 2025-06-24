@@ -1,4 +1,5 @@
-image:
-  # Reemplaza 'latest' o pon el tag específico de la imagen
-  # de Docker para tu static-web que quieres en desarrollo.
-  tag: "2d41f52"
+# --- charts/frontend-static/values-desarrollo.yaml 
+  static-web:
+    image:
+      # Sobrescribimos únicamente el tag para el ambiente de desarrollo
+      tag: "2d41f52"

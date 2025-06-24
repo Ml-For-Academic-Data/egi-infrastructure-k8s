@@ -1,21 +1,18 @@
-# --- values.yaml para static-web ---
+services:
 
-replicas: 1
-
-# El nombre de la aplicación
-appName: static-web
-
-image:
-  # Asegúrate de que este sea el nombre correcto de tu nueva imagen
-  repository: ghcr.io/ml-for-academic-data/egi-static-web
-  pullPolicy: IfNotPresent
-
-imagePullSecrets:
-  - name: ghcr-credentials
-
-# Configuración del servicio de red
-service:
-  type: NodePort
-  # El puerto en el que corre tu app Flask, según los logs es el 3000
-  port: 3000
-  containerPort: 3000
+  # Este es el nombre de tu servicio. Se usará como {{ $name }} en las plantillas.
+  static-web: 
+    # Esta bandera permite activar o desactivar el despliegue de este servicio.
+    enabled: true 
+    
+    # La configuración de la imagen, que se leerá como {{ $service.image }}
+    image:
+      repository: ghcr.io/ml-for-academic-data/egi-static-web
+      # El tag por defecto, se puede sobrescribir.
+      tag: "latest" 
+    
+    # El puerto, que se leerá como {{ $service.port }}
+    port: 3000 
+    
+    # El tipo de servicio, que se leerá como {{ $service.type }}
+    type: NodePort
