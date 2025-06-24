@@ -1,5 +1,3 @@
-# En: charts/main-ingress/templates/ingress.yaml
-
 {{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -9,12 +7,10 @@ metadata:
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
-  # --- CLASE DE INGRESS CAMBIADA ---
   ingressClassName: nginx
   rules:
   - http:
       paths:
-      # La ruta raíz no necesita cambios
       - path: /
         pathType: Prefix
         backend:
@@ -22,8 +18,6 @@ spec:
             name: {{ .Values.paths.static_web.serviceName }}
             port:
               number: {{ .Values.paths.static_web.servicePort }}
-
-      # --- RUTAS MODIFICADAS PARA NGINX ---
       - path: /panel(/|$)(.*)
         pathType: ImplementationSpecific
         backend:
@@ -31,7 +25,6 @@ spec:
             name: {{ .Values.paths.panel.serviceName }}
             port:
               number: {{ .Values.paths.panel.servicePort }}
-
       - path: /airflow(/|$)(.*)
         pathType: ImplementationSpecific
         backend:
