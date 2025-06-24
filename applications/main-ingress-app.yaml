@@ -10,7 +10,7 @@ spec:
   source:
     # --- AQUÍ VA TU REPOSITORIO ---
     # Reemplaza esto con la URL de tu repositorio egi-infrastructure-k8s
-    repoURL: https://github.com/Ml-For-Academic-Data/egi-infrastructure-k8s
+    repoURL: https://github.com/Ml-For-Academic-Data/egi-infrastructure-k8s.git
     
     # La rama que Argo CD debe observar
     targetRevision: main 
