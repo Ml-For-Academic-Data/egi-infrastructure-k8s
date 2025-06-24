@@ -52,5 +52,17 @@ spec:
           volumeMounts:
             {{- toYaml $service.volumeMounts | nindent 12 }}
           {{- end }}
+          # =================================================================
+          # --- SECCIÓN DE VARIABLES DE ENTORNO (AÑADIDA) ---
+          # Este bloque revisa si existe una sección 'env' para el servicio actual
+          # en el values.yaml y, si es así, crea las variables de entorno.
+          {{- if $service.env }}
+          env:
+          {{- range $key, $value := $service.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+          {{- end }}
+          {{- end }}
+          # =================================================================
 {{- end }}
 {{- end }}

@@ -16,3 +16,7 @@ services:
     
     # El tipo de servicio, que se leerá como {{ $service.type }}
     type: NodePort
+
+    env:
+      AIRFLOW_URL: "http://172.31.86.84:32693"
+      PANEL_URL: "http://172.31.86.84:30726"
