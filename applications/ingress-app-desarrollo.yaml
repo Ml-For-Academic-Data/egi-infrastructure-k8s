@@ -1,0 +1,32 @@
+# Guarda esto en: applications/ingress-app-desarrollo.yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-desarrollo
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # La URL de tu repositorio
+    repoURL: https://github.com/Ml-For-Academic-Data/egi-infrastructure-k8s.git
+    # La rama que debe vigilar
+    targetRevision: main
+    # ¡Clave! La ruta al chart que debe desplegar
+    path: charts/main-ingress
+    helm:
+      # El archivo de valores que usará para este despliegue
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    # El namespace donde se desplegarán los recursos de este chart
+    namespace: desarrollo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
