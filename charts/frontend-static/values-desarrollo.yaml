@@ -7,3 +7,6 @@ services:
   staticWeb:
     image:
       tag: 9b2ca14
+  static-web:
+    image:
+      tag: 04a57e6
