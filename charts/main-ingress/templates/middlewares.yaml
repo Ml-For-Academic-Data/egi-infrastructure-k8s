@@ -1,0 +1,22 @@
+# Middleware para quitar el prefijo /airflow
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  # El nombre debe ser único
+  name: strip-airflow-prefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /airflow
+
+---
+# Middleware para quitar el prefijo /panel
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  # El nombre debe ser único
+  name: strip-panel-prefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /panel

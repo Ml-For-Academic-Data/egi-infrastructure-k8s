@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: main-egi-ingress
   annotations:
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    traefik.ingress.kubernetes.io/router.middlewares: "desarrollo-strip-airflow-prefix@kubernetescrd, desarrollo-strip-panel-prefix@kubernetescrd"
 spec:
   rules:
   - http:
