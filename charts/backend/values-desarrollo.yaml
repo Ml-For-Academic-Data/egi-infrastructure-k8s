@@ -4,5 +4,5 @@
 replicas: 1
 
 image:
-  tag: 'c9a8513'
+  tag: 'd19ecb8'
 
