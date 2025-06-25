@@ -1,31 +1,33 @@
-# En: main-ingress/templates/ingress.yaml
-
+{{/* Plantilla corregida para main-ingress/templates/ingress.yaml */}}
 {{- if .Values.ingress.enabled -}}
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: main-ingress
   namespace: desarrollo
   annotations:
-    # Añadimos la anotación de cert-manager para que sepa qué emisor usar
-    cert-manager.io/cluster-issuer: "letsencrypt-prod" # Asumo que usarás este nombre
+    # Anotación para que cert-manager sepa qué emisor de certificados usar
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # Anotaciones personalizadas desde el archivo de valores (ej: ssl-redirect)
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
   ingressClassName: nginx
+  
+  # La sección TLS debe estar aquí, dentro de spec:
   {{- if .Values.tls.enabled }}
   tls:
   - hosts:
       # Tomamos la lista completa de hosts del values.yaml
-    {{- toYaml .Values.tls.hosts | nindent 4 }}
+    {{- toYaml .Values.tls.hosts | nindent 6 }}
     secretName: {{ .Values.tls.secretName }}
   {{- end }}
+
   rules:
-  # REGLA 1: Dominio Principal (bytebuilders.software)
-  - host: {{ .Values.ingress.host }}
+  # REGLA 1: Dominio Principal (ej: bytebuilders.software)
+  - host: {{ .Values.paths.static_web.host }}
     http:
       paths:
-      - path: / # Siempre en la raíz
+      - path: /
         pathType: Prefix
         backend:
           service:
@@ -33,8 +35,7 @@ spec:
             port:
               number: {{ .Values.paths.static_web.servicePort }}
 
-  # REGLA 2: Dominio WWW (www.bytebuilders.software)
-  # Forma explícita y limpia de manejar 'www'
+  # REGLA 2: Dominio WWW
   - host: www.{{ .Values.ingress.host }}
     http:
       paths:
@@ -42,7 +43,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: {{ .Values.paths.static_web.serviceName }} # Apunta al mismo servicio
+            name: {{ .Values.paths.static_web.serviceName }}
             port:
               number: {{ .Values.paths.static_web.servicePort }}
 
@@ -50,7 +51,7 @@ spec:
   - host: {{ .Values.paths.panel.host }}
     http:
       paths:
-      - path: / # Siempre en la raíz
+      - path: /
         pathType: Prefix
         backend:
           service:
@@ -62,7 +63,7 @@ spec:
   - host: {{ .Values.paths.airflow.host }}
     http:
       paths:
-      - path: / # Siempre en la raíz
+      - path: /
         pathType: Prefix
         backend:
           service:
