@@ -44,9 +44,9 @@ spec:
               containerPort: {{ $service.port }}
               protocol: TCP
 
-          {{- if .Values.env }}
+          {{- if $service.env }}
           env:
-            {{- toYaml .Values.env | nindent 12 }}
+            {{- toYaml $service.env | nindent 12 }}
           {{- end }}
               
           # --- SECCIÓN DE MONTAJE DE VOLÚMENES ---

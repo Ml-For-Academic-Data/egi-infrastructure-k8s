@@ -25,9 +25,9 @@ service:
   port: 5000
   # Puerto en el que la aplicación está escuchando dentro del contenedor
   containerPort: 5000
-
-env:
-  - name: GF_SERVER_ROOT_URL
-    value: "https://panel.bytebuilders.software"
+  # Variables de entorno específicas para este servicio
+  env:
+    - name: GF_SERVER_ROOT_URL
+      value: "https://panel.bytebuilders.software"
 
   
