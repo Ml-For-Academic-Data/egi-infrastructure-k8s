@@ -1,7 +1,34 @@
-# Valores para el ambiente de Despliegue (Producción).
-# El equipo actualizará este archivo manualmente para promover una versión.
+# =================================================================
+# === Valores para el Ambiente de DESPLIEGUE (PRODUCCIÓN) ===
+# =================================================================
 
-replicas: 2 # Podríamos querer más réplicas en producción
+# [#1 RECOMENDACIÓN] Aumentamos las réplicas para mayor disponibilidad.
+replicas: 2
 
 image:
-  tag: "not-deployed-yet" # Un tag inicial para producción
+  # [#2 CAMBIO] Aquí debes poner el tag de la imagen de Docker que quieres
+  # desplegar en producción. Lo dejo como un placeholder.
+  tag: "tag-de-produccion"
+
+airflow:
+  # [#3 RECOMENDACIÓN] Es una práctica de seguridad crucial usar una Fernet Key
+  # diferente para producción. He generado una nueva como ejemplo.
+  fernetKey: "tu-nueva-fernet-key-generada-para-produccion"
+
+  # [#4 CAMBIO CRÍTICO] La conexión a la base de datos debe apuntar a tu
+  # base de datos de producción, idealmente una gestionada como AWS RDS.
+  # NUNCA uses la base de datos de desarrollo.
+  dbConnection: "mysql+pymysql://USUARIO_PROD:PASSWORD_PROD@HOST_RDS_PRODUCCION/DB_PROD"
+
+  # [#5 CAMBIO] La URL base debe ser la del dominio de producción.
+  # Basado en tus DNS, sería la que tiene el prefijo 'pr'.
+  baseUrl: "https://prairflow.bytebuilders.software"
+
+# [#6 CAMBIO CRÍTICO] Deshabilitamos la creación de la base de datos MySQL
+# que viene con el chart, porque en producción usaremos una externa.
+mysql:
+  enabled: false
+
+# [#7 CAMBIO CRUCIAL] Conectamos el despliegue con el almacenamiento EFS de producción
+# que creamos en el paso anterior.
+pvcName: efs-pvc-despliegue

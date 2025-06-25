@@ -93,6 +93,7 @@ spec:
               mountPath: /opt/airflow/data
               
       volumes:
-        - name: airflow-data
+        - name: efs-storage
           persistentVolumeClaim:
-            claimName: efs-shared-pvc
+            # Asegúrate de que apunte a la variable .Values.pvcName
+            claimName: {{ .Values.pvcName }}
