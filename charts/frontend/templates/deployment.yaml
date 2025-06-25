@@ -43,6 +43,11 @@ spec:
             - name: http
               containerPort: {{ $service.port }}
               protocol: TCP
+
+          {{- if .Values.env }}
+          env:
+            {{- toYaml .Values.env | nindent 12 }}
+          {{- end }}
               
           # --- SECCIÓN DE MONTAJE DE VOLÚMENES ---
           # Ahora, montamos los volúmenes DENTRO del contenedor.

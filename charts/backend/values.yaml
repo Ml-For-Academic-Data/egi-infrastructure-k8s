@@ -21,6 +21,8 @@ airflow:
   # La conexión a la base de datos. Usamos el nombre del servicio de MySQL que crearemos.
   dbConnection: "mysql+pymysql://user:1234@mysql-server.desarrollo.svc.cluster.local/students"
 
+  baseUrl: "https://airflow.bytebuilders.software"
+
 # Configuración específica para el servicio del webserver.
 # CORRECCIÓN: Renombrado de 'webserver_service' a 'service' para que coincida con la plantilla.
 service:

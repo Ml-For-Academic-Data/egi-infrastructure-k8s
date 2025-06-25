@@ -63,6 +63,8 @@ spec:
               value: {{ .Values.airflow.fernetKey | quote }}
             - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
               value: {{ .Values.airflow.dbConnection | quote }}
+            - name: AIRFLOW__WEBSERVER__BASE_URL
+              value: {{ .Values.airflow.baseUrl | quote }}
             - name: AIRFLOW__CORE__EXECUTOR
               value: "SequentialExecutor"
             - name: AIRFLOW__WWW__USER_CREATE
