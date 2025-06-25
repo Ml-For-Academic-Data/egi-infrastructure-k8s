@@ -6,4 +6,3 @@ replicas: 1
 image:
   tag: 'c9a8513'
 
-pvcName: efs-shared-pv
