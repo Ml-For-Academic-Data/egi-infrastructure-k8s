@@ -1,0 +1,18 @@
+# En: storage/despliegue/efs-pv.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  # Nombre único para el PV de despliegue/producción
+  name: efs-pv-despliegue
+spec:
+  capacity:
+    storage: 5Gi # La capacidad para EFS es simbólica, no un límite estricto.
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany # Permite que múltiples pods lean/escriban a la vez. Esencial para EFS.
+  storageClassName: efs-sc # Usa el StorageClass global que ya creaste.
+  persistentVolumeReclaimPolicy: Retain # Importante: No borra el EFS si se borra este PV.
+  csi:
+    driver: efs.csi.aws.com
+    # ¡CLAVE! Este es el ID de tu nuevo EFS para producción.
+    volumeHandle: fs-0ae8b67651f907ad8

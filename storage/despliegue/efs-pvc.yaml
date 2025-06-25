@@ -1,0 +1,15 @@
+# En: storage/despliegue/efs-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  # Nombre único para el PVC de despliegue
+  name: efs-pvc-despliegue
+  # ¡CLAVE! Debe estar en el mismo namespace que las aplicaciones que lo usarán.
+  namespace: despliegue
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc # Solicita almacenamiento del tipo 'efs-sc'.
+  resources:
+    requests:
+      storage: 5Gi

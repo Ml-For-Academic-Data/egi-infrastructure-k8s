@@ -1,19 +1,24 @@
-# Valores para el ambiente de DESPLIEGUE (PRODUCCIÓN)
+tls:
+  enabled: true
+  secretName: produccion-tls # Un nombre de secret diferente para el certificado de producción
+  hosts:
+    - pr.bytebuilders.software
+    - prpanel.bytebuilders.software
+    - prairflow.bytebuilders.software
+    - prapi.bytebuilders.software
 
 paths:
   static_web:
-    # Dominio público principal
-    host: "www.tuempresa.com" 
-    # Generalmente, en producción los nombres de servicio son más limpios
-    serviceName: "egi-static-web-produccion-static-web-service"
+    host: "pr.bytebuilders.software"
+    serviceName: "egi-static-web-despliegue-service" # Asegúrate que el nombre del servicio sea el correcto para producción
     servicePort: 3000
 
   panel:
-    host: "panel.tuempresa.com"
-    serviceName: "egi-frontend-produccion-visualization-service"
+    host: "prpanel.bytebuilders.software"
+    serviceName: "egi-frontend-despliegue-visualization-service"
     servicePort: 5000
   
   airflow:
-    host: "airflow.tuempresa.com"
-    serviceName: "backend-airflow-webserver-produccion" # Ejemplo
+    host: "prairflow.bytebuilders.software"
+    serviceName: "backend-airflow-webserver-despliegue"
     servicePort: 8080
