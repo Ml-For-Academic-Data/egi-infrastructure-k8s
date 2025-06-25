@@ -1,0 +1,6 @@
+# Valores para el ambiente de DESPLIEGUE (Producción)
+services:
+  static-web:
+    image:
+      # Reemplaza esto con el tag de la imagen que quieres lanzar a producción
+      tag: "tag-de-produccion"

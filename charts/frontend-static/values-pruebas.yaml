@@ -1,0 +1,6 @@
+# Valores para el ambiente de PRUEBAS (QA/Staging)
+services:
+  static-web:
+    image:
+      # Reemplaza esto con el tag de la imagen que quieres probar
+      tag: "tag-para-pruebas"
