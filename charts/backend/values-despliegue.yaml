@@ -8,12 +8,12 @@ replicas: 2
 image:
   # [#2 CAMBIO] Aquí debes poner el tag de la imagen de Docker que quieres
   # desplegar en producción. Lo dejo como un placeholder.
-  tag: "tag-de-produccion"
+  tag: 'c9a8513'
 
 airflow:
   # [#3 RECOMENDACIÓN] Es una práctica de seguridad crucial usar una Fernet Key
   # diferente para producción. He generado una nueva como ejemplo.
-  fernetKey: "tu-nueva-fernet-key-generada-para-produccion"
+  fernetKey: "mIh6lm3m0mg/m0NfrRlt4oGVZcjeFXZTvQIdxeEtkZE="
 
   # [#4 CAMBIO CRÍTICO] La conexión a la base de datos debe apuntar a tu
   # base de datos de producción, idealmente una gestionada como AWS RDS.

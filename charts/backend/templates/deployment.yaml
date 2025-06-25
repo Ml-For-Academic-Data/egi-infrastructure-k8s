@@ -93,7 +93,7 @@ spec:
               mountPath: /opt/airflow/data
               
       volumes:
-        - name: efs-storage
+        - name: airflow-data # El nombre debe coincidir con el volumeMount
           persistentVolumeClaim:
-            # Asegúrate de que apunte a la variable .Values.pvcName
+            # Usa la variable para que cada ambiente apunte al PVC correcto
             claimName: {{ .Values.pvcName }}
