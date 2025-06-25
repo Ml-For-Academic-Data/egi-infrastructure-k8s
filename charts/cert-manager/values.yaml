@@ -1,0 +1,9 @@
+cert-manager:
+  installCRDs: true
+  
+# ClusterIssuer para Let's Encrypt
+clusterIssuer:
+  enabled: true
+  name: letsencrypt-prod
+  email: admin@bytebuilders.software
+  server: https://acme-v02.api.letsencrypt.org/directory

@@ -18,5 +18,6 @@ services:
     type: ClusterIP
 
     env:
-      AIRFLOW_URL: "http://54.204.172.139:32693"
-      PANEL_URL: "http://54.204.172.139:30726"
+      AIRFLOW_URL: "https://airflow.bytebuilders.software"
+      PANEL_URL: "https://panel.bytebuilders.software"
+
