@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: egi-backend-despliegue
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Ml-For-Academic-Data/egi-infrastructure-k8s.git
+    path: charts/backend
+    targetRevision: main
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-despliegue.yaml # Usa los valores para producción
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: despliegue # Despliega en el namespace 'despliegue'
+  syncPolicy: { automated: { prune: true, selfHeal: true }, syncOptions: ["CreateNamespace=true"] }
