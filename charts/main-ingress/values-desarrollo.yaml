@@ -1,18 +1,44 @@
-# Valores para el ambiente de DESARROLLO
+ingress:
+  enabled: true
+  # Anotaciones para tu Ingress Controller (ej: nginx, traefik).
+  # Para NGINX, 'nginx.ingress.kubernetes.io/rewrite-target: /' es común.
+  host: bytebuilders.software
+  annotations:
+    #nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # SSL redirect automático
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Agregar soporte para dominios múltiples
+    #nginx.ingress.kubernetes.io/server-alias: "www.bytebuilders.software"
 
+# Configuración SSL
+tls:
+  enabled: true
+  secretName: bytebuilders-tls
+  hosts:
+    - bytebuilders.software
+    - www.bytebuilders.software
+    - panel.bytebuilders.software
+    - airflow.bytebuilders.software
+
+# Definición centralizada de todas las rutas de la plataforma
 paths:
+  # Ruta para el portal estático
   static_web:
-    host: "www.desarrollo.tudominio.com"
-    # El nombre del servicio como lo tienes actualmente en el namespace 'desarrollo'
-    serviceName: "egi-static-web-desarrollo-static-web-service"
+    host: bytebuilders.software
+    # OJO: El nombre del servicio debe coincidir con el que se crea en el chart 'frontend-static'
+    serviceName: egi-static-web-desarrollo-static-web-service
     servicePort: 3000
 
+  # Ruta para el Dashboard Panel
   panel:
-    host: "panel.desarrollo.tudominio.com"
-    serviceName: "egi-frontend-desarrollo-visualization-service"
+    host: panel.bytebuilders.software
+    # OJO: El nombre del servicio debe coincidir con el que se crea en el chart 'frontend'
+    serviceName: egi-frontend-desarrollo-visualization-service
     servicePort: 5000
-  
+
+  # Ruta para Airflow
   airflow:
-    host: "airflow.desarrollo.tudominio.com"
-    serviceName: "backend-airflow-webserver"
+    host: airflow.bytebuilders.software
+    # OJO: El nombre del servicio debe coincidir con el que se crea en el chart 'backend'
+    serviceName: backend-airflow-webserver
     servicePort: 8080
