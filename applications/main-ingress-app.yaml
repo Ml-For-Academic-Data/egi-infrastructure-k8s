@@ -17,6 +17,9 @@ spec:
     
     # La ruta dentro de tu repositorio donde se encuentra el chart
     path: charts/main-ingress 
+    #helm: (cambiar cuando este bien la parte de values-desarrollo)
+    #  valueFiles:
+    #    - values-desarrollo.yaml
 
   destination:
     server: https://kubernetes.default.svc

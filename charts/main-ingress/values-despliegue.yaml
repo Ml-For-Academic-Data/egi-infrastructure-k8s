@@ -1,0 +1,19 @@
+# Valores para el ambiente de DESPLIEGUE (PRODUCCIÓN)
+
+paths:
+  static_web:
+    # Dominio público principal
+    host: "www.tuempresa.com" 
+    # Generalmente, en producción los nombres de servicio son más limpios
+    serviceName: "egi-static-web-produccion-static-web-service"
+    servicePort: 3000
+
+  panel:
+    host: "panel.tuempresa.com"
+    serviceName: "egi-frontend-produccion-visualization-service"
+    servicePort: 5000
+  
+  airflow:
+    host: "airflow.tuempresa.com"
+    serviceName: "backend-airflow-webserver-produccion" # Ejemplo
+    servicePort: 8080

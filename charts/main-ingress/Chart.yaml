@@ -1,6 +1,6 @@
 apiVersion: v2
 name: main-ingress
-description: Un Helm chart para el Ingress principal de la plataforma EGI
+description: Un Helm chart para gestionar los Ingress de la plataforma EGI.
 type: application
 version: 0.1.0
 appVersion: "1.0.0"

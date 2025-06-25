@@ -1,7 +1,6 @@
 ingress:
   enabled: true
   # Anotaciones para tu Ingress Controller (ej: nginx, traefik).
-
   # Para NGINX, 'nginx.ingress.kubernetes.io/rewrite-target: /' es común.
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2

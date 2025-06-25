@@ -1,0 +1,18 @@
+# Valores para el ambiente de DESARROLLO
+
+paths:
+  static_web:
+    host: "www.desarrollo.tudominio.com"
+    # El nombre del servicio como lo tienes actualmente en el namespace 'desarrollo'
+    serviceName: "egi-static-web-desarrollo-static-web-service"
+    servicePort: 3000
+
+  panel:
+    host: "panel.desarrollo.tudominio.com"
+    serviceName: "egi-frontend-desarrollo-visualization-service"
+    servicePort: 5000
+  
+  airflow:
+    host: "airflow.desarrollo.tudominio.com"
+    serviceName: "backend-airflow-webserver"
+    servicePort: 8080

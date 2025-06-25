@@ -1,0 +1,17 @@
+# Valores para el ambiente de PRUEBAS (QA/Staging)
+
+paths:
+  static_web:
+    host: "www.pruebas.tudominio.com"
+    serviceName: "egi-static-web-pruebas-static-web-service"
+    servicePort: 3000
+
+  panel:
+    host: "panel.pruebas.tudominio.com"
+    serviceName: "egi-frontend-pruebas-visualization-service"
+    servicePort: 5000
+  
+  airflow:
+    host: "airflow.pruebas.tudominio.com"
+    serviceName: "backend-airflow-webserver-pruebas"
+    servicePort: 8080
