@@ -17,7 +17,7 @@ services:
     type: ClusterIP
     image:
       repository: ghcr.io/ml-for-academic-data/egi-dashboard
-      tag: "3628de7"
+      tag: "8eb111d"
     port: 5000
     # --- Montaje Específico para este Servicio ---
     # Le decimos a este servicio que monte el volumen 'shared-data'.
