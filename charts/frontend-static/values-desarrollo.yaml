@@ -2,4 +2,4 @@
 services:
   static-web:
     image:
-      tag: "0655e8a"
+      tag: "208717b"
