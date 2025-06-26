@@ -4,5 +4,5 @@
 replicas: 1
 
 image:
-  tag: 'd19ecb8'
+  tag: '5230cee'
 
